@@ -14,6 +14,8 @@ DELETE - /api/employees/{id}  -  delete employee
 
 GET - /api/employees/status   - get status of upload api
 
+GET - /api/employees-Paged?pageNo=4&pageSize=3&sortBy=age -  Results based on pagination and sort parameter
+
 # Input
 /src/main/resources/files - contains sample input files
 
