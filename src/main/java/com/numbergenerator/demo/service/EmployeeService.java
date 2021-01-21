@@ -19,4 +19,6 @@ public interface EmployeeService {
 
 	String getStatus();
 
+	List<Employee> getEmployeesByPagiation(Integer pageNo, Integer pageSize, String sortBy);
+
 }
