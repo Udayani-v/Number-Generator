@@ -15,6 +15,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +54,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			String content = lines.collect(Collectors.joining(System.lineSeparator()));
 			String[] employeeDataArray = content.split("\n");
 			Future<Employee> res = null;
-			Thread.sleep(50000);
 			for (String line : employeeDataArray) {
 				String[] data = line.split(" ");
 				res = executorService.submit(() -> parseEmployeeData(data));
@@ -114,5 +117,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String getStatus() {
 		return inProgress;
 	}
+
+	@Override
+	public List<Employee> getEmployeesByPagiation(Integer pageNo, Integer pageSize, String sortBy) {
+		
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+		Page<Employee> empList = employeeRepository.findAll(pageable);
+		System.out.println(empList.getContent());
+		if(empList.hasContent()) {
+			return empList.getContent();
+		}
+		
+		return new ArrayList<>();
+		
+	}
+
 
 }

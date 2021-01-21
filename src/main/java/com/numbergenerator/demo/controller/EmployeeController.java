@@ -50,6 +50,12 @@ public class EmployeeController {
 		return employeeService.getAllEmployees();
 	}
 
+	@GetMapping("/employees-Paged")
+	public List<Employee> getEmployeesByPagiation(@RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "5") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy ) {
+		return employeeService.getEmployeesByPagiation(pageNo, pageSize, sortBy);
+	}
+
 	@GetMapping("/employees/{id}")
 	public Employee getEmployeeById(@PathVariable Long id) {
 		Optional<Employee> employee = employeeService.getEmployeeById(id);
